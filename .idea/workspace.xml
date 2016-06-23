@@ -2,13 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="aa20acb9-9403-4056-9a2d-6e429f43bd47" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/sample-cp949/cp949/user.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test1-cp949/cp949/friend.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test1-cp949/cp949/user.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test1-cp949/cp949/word.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test2-cp949/cp949/friend.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test2-cp949/cp949/user.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test2-cp949/cp949/word.txt" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_import.py" afterPath="$PROJECT_DIR$/test_import.py" />
     </list>
     <ignored path="datastructure.iws" />
@@ -43,8 +36,8 @@
       <file leaf-file-name="test_import.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test_import.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="363" column="0" selection-start-line="363" selection-start-column="0" selection-end-line="363" selection-end-column="0" />
+            <state relative-caret-position="1571">
+              <caret line="458" column="13" selection-start-line="458" selection-start-column="13" selection-end-line="458" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -468,8 +461,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test_import.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="363" column="0" selection-start-line="363" selection-start-column="0" selection-end-line="363" selection-end-column="0" />
+        <state relative-caret-position="1571">
+          <caret line="458" column="13" selection-start-line="458" selection-start-column="13" selection-end-line="458" selection-end-column="13" />
           <folding />
         </state>
       </provider>

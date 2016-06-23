@@ -11,27 +11,27 @@ def left(n):
 def right(n):
     return 2*n+2
 
-def heapify(A,i,heapsize):
+def max_heapify(A,i,heapsize):
     l=left(i)
     r=right(i)
-    if l<heapsize and A[l]>A[i]:
+    if l<heapsize and A[l]<A[i]:
         largest =l
     else:
         largest=i
-    if r<heapsize and A[r]>A[largest]:
+    if r<heapsize and A[r]<A[largest]:
         largest=r
     if largest!=i:
         A[i], A[largest]=A[largest],A[i]
-        heapify(A,largest,heapsize)
+        max_heapify(A,largest,heapsize)
 
 def build_a_heap(A):
     for i in range(len(A)//2,0,-1):
-        heapify(A,i-1,len(A))
-def heapsort(A):
+        max_heapify(A,i-1,len(A))
+def max_heapsort(A):
     build_a_heap(A)
     for i in range(len(A),1,-1):
         A[i-1],A[0]=A[0],A[i-1]
-        heapify(A,0,i-1)
+        max_heapify(A,0,i-1)
 
 
 class Adj:
@@ -200,35 +200,35 @@ class DepthFirstSearch:
         g_transpose(self.vertices, vertices1)
         self.set_vertices(vertices1)
 
-    # def left(self, n):
-    #     return 2 * n + 1
-    #
-    # def right(self, n):
-    #     return 2 * n + 2
-    #
-    # def heapify(self, A, i, heapsize):
-    #     vset = self.vertices
-    #     l = self.left(i)
-    #     r = self.right(i)
-    #     if l < heapsize and vset[A[l]].f > vset[A[i]].f:
-    #         largest = l
-    #     else:
-    #         largest = i
-    #     if r < heapsize and vset[A[r]].f > vset[A[largest]].f:
-    #         largest = r
-    #     if largest != i:
-    #         A[i], A[largest] = A[largest], A[i]
-    #         self.heapify(A, largest, heapsize)
-    #
-    # def buildheap(self, A):
-    #     for i in range(len(A) // 2 + 1, 0, -1):
-    #         self.heapify(A, i - 1, len(A))
-    #
-    # def heapsort(self, A):
-    #     self.buildheap(A)
-    #     for i in range(len(A), 1, -1):
-    #         A[i - 1], A[0] = A[0], A[i - 1]
-    #         self.heapify(A, 0, i - 1)
+    def left(self, n):
+        return 2 * n + 1
+
+    def right(self, n):
+        return 2 * n + 2
+
+    def heapify(self, A, i, heapsize):
+        vset = self.vertices
+        l = self.left(i)
+        r = self.right(i)
+        if l < heapsize and vset[A[l]].f > vset[A[i]].f:
+            largest = l
+        else:
+            largest = i
+        if r < heapsize and vset[A[r]].f > vset[A[largest]].f:
+            largest = r
+        if largest != i:
+            A[i], A[largest] = A[largest], A[i]
+            self.heapify(A, largest, heapsize)
+
+    def buildheap(self, A):
+        for i in range(len(A) // 2 + 1, 0, -1):
+            self.heapify(A, i - 1, len(A))
+
+    def heapsort(self, A):
+        self.buildheap(A)
+        for i in range(len(A), 1, -1):
+            A[i - 1], A[0] = A[0], A[i - 1]
+            self.heapify(A, 0, i - 1)
 
     def sort_by_f(self):
         vset = self.vertices
@@ -257,6 +257,10 @@ class Node:
     def __init__(self):
         self.number = 0
         self.date = None
+class Frequency:
+    def __init__(self):
+        self.frequency = 0
+        self.key = None
 
 
 class User:
@@ -322,17 +326,16 @@ def menu_0 ():
     print("Total friendship records", len(userfriendship))
     print("Total tweets", len(tweets))
 
-
-#def menu_1(): # friends statistics: hashing?
-#    hashtable = [0:len(userprofilelist)-1]
-
-
- #   for user in userfriendship:
- #       if (user.number != hashtable.key)
- #           hashtable.append()
-
-
-
+#inversing hashtable
+def invert_dict(d):
+    inverse = dict()
+    for key in d:
+        val = d[key]
+        if val not in inverse:
+            inverse[val] = [key]
+        else:
+            inverse[val].append(key)
+    return inverse
 
 #word hashing
 def wordhashing():
@@ -346,30 +349,74 @@ def wordhashing():
             #print(tw.tweet)
         else:
             word_hashtable[tw.tweet] = [tw.number]
+ #   return word_hashtable
 
     #sorting from the most frequent words mentioned
-    frequency_list = []
+    freq_list = []
+
     for tw_hashkey in word_hashtable:
         value = word_hashtable.get(tw_hashkey)
         if(len(value) > 2):
             set = [len(value), tw_hashkey]
-            frequency_list.append(set)
-            print(len(value), tw_hashkey)
-    heapsort(frequency_list)
+            freq_list.append(set)
+    max_heapsort(freq_list)
+    #print(freq_list)
+    print("Top 5 most tweeted words:", freq_list[0][1],freq_list[1][1],freq_list[2][1],freq_list[3][1],freq_list[4][1])
 
-#    frequency_list.sort()
-#    frequency_list.reverse()
-    print("----------\n")
-    print(frequency_list)
+#user hashing
+def userhashing():
+    user_hashtable= {}
+    for tw in tweets:
+        if tw.number in user_hashtable:
+            buffer = user_hashtable.get(tw.number)
+            buffer.append(tw.tweet)
+            user_hashtable[tw.number]=buffer
+        else:
+            user_hashtable[tw.number] = [tw.tweet]
 
-  #  print(len(tweets))
-  #  print(len(word_hashtable))
-  #  print(word_hashtable)
+    chatterbox = []
+
+    for tw_hashkey in user_hashtable:
+        value = user_hashtable.get(tw_hashkey)
+        if(len(value) > 2):
+            set = [len(value), tw_hashkey]
+            chatterbox.append(set)
+    max_heapsort(chatterbox)
+    print("Top 5 most tweeted users:",chatterbox[0][1],chatterbox[1][1],chatterbox[2][1],chatterbox[3][1],chatterbox[4][1])
+
+
+
+    # #top5 most tweeted users
+    # inverse = invert_dict(word_hashtable)
+    # chatterbox = []
+    #
+    # for tw_user in inverse:
+    #     value = inverse.get(tw_user)
+    #     if(len(value) > 2):
+    #         set = [len(value), tw_user]
+    #         freq_list.append(set)
+    # max_heapsort(chatterbox)
+    # print(chatterbox)
+    # print("Top 5 most tweeted words:", chatterbox[0][1],chatterbox[1][1],chatterbox[2][1],chatterbox[3][1],chatterbox[4][1])
+
+
+def menu_2():
+    wordhashing()
+    freq_list = []
+
+    # for tw_hashkey in word_hashtable:
+    #     value = word_hashtable.get(tw_hashkey)
+    #     if(len(value) > 2):
+    #         set = [len(value), tw_hashkey]
+    #         freq_list.append(set)
+    # max_heapsort(freq_list)
+    # print("Top 5 most tweeted words:", freq_list[0][1], freq_list[1][1], freq_list[2][1], freq_list[3][1], freq_list[4][1])
 
 
 
 
-
+def menu_3 ():
+    wordhashing()
 
 
 
@@ -408,5 +455,5 @@ def MainMenu():
 #main ()
 MainMenu()
 menu_0()
-#menu_1()
-wordhashing()
+menu_2()
+userhashing()
