@@ -1,3 +1,4 @@
+
 class Node:
     def __init__(self):
         self.number = 0
@@ -20,7 +21,7 @@ class Friend:
         self.following = None
 
 def menu_0 ():
-    userfile = open('user.txt')
+    userfile = open('user_utf.txt')
     i = 0
     userprofilelist = []
     for line in userfile:
@@ -36,7 +37,7 @@ def menu_0 ():
             userprofilelist.append(user)
         i = i+1
 
-    friendfile = open ('friend.txt')
+    friendfile = open('friend_utf.txt')
     j = 0
     userfriendship = []
     for line in friendfile:
@@ -50,23 +51,29 @@ def menu_0 ():
             userfriendship.append(user)
         j = j+1
 
-    wordfile = open ('word.txt')
-    k = 0
-    tweets = []
-    for line in wordfile:
-        line = line [0:-1]
-        if ((k%4)==0):
-            user = Word()
-        elif ((k%4)==1):
-            user.number = line
-        elif ((k%4)==2):
-            user.date = line
-        elif ((k%4)==3):
-            user.tweet = line
-        k = k+1
-    print("Total users:", i)
-    print("Total friendship records:", j)
-    print("Total tweets:", k)
+    with open("word_utf.txt", "r", encoding ="utf-8") as wordfile:
+        k =0
+        tweets = []
+        for line in wordfile:
+            line = line [0:-1]
+            if ((k%4)==0):
+                user = Word()
+            elif ((k%4)==1):
+                user.number = line
+            elif ((k%4)==2):
+                user.date = line
+            elif ((k%4)==3):
+                user.tweet = line
+                tweets.append(user)
+            k = k+1
+
+    print("Total users:", len(userprofilelist))
+    print("Total friendship records", len(userfriendship))
+    print("Total tweets", len(tweets))
+
+
+def menu_1() # friends statistics: hashing?
+    
 
 
 
@@ -74,7 +81,6 @@ def menu_0 ():
 
 
 
-""
 def main():
     word = open('word.txt')
     friend = open('friend.txt')
@@ -84,7 +90,7 @@ def main():
         line = line[0:-1]
         print (line)
 
-""
+
 
 
 
