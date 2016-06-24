@@ -1,0 +1,7 @@
+first draft of manual
+
+0. Read data files:
+slicing each line, i've used the modular to distinguish each attribute and saved the each data
+by creating node for individual information.
+After that, I've put all the individual information into an array (list) named userprofilelist, userfriendship, and tweets.
+Then it prints out the total number of users, friendship records, and (modified) tweets.

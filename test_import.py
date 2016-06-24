@@ -257,16 +257,19 @@ class Node:
     def __init__(self):
         self.number = 0
         self.date = None
-class Frequency:
-    def __init__(self):
-        self.frequency = 0
-        self.key = None
+#        self.first = None
 
+ #   def add(self, v):
+ #       a = Adj()
+ #       a.n = v.n
+ #       a.next = self.first
+ #       self.first = a
 
 class User:
     def __init__(self):
         super().__init__()
         self.id = None
+
 
 class Word:
     def __init__(self):
@@ -326,20 +329,15 @@ def menu_0 ():
     print("Total friendship records", len(userfriendship))
     print("Total tweets", len(tweets))
 
-#inversing hashtable
-def invert_dict(d):
-    inverse = dict()
-    for key in d:
-        val = d[key]
-        if val not in inverse:
-            inverse[val] = [key]
-        else:
-            inverse[val].append(key)
-    return inverse
+    wordhashing()
+    userhashing()
+    friendshiphashing()
+    followershashing()
+
 
 #word hashing
+word_hashtable = {}
 def wordhashing():
-    word_hashtable = {}
     for tw in tweets:
         #print(tw.tweet)
         if(tw.tweet in word_hashtable):
@@ -349,9 +347,65 @@ def wordhashing():
             #print(tw.tweet)
         else:
             word_hashtable[tw.tweet] = [tw.number]
- #   return word_hashtable
 
-    #sorting from the most frequent words mentioned
+
+#user hashing
+user_hashtable={}
+def userhashing():
+   # user_hashtable= {}
+    for tw in tweets:
+        if tw.number in user_hashtable:
+            temp = user_hashtable.get(tw.number)
+            temp.append(tw.tweet)
+            user_hashtable[tw.number]=temp
+        else:
+            user_hashtable[tw.number] = [tw.tweet]
+
+
+friends_hashtable={}
+def friendshiphashing():
+    for user in userfriendship:
+        if user.number in friends_hashtable:
+            temp = friends_hashtable.get(user.number)
+            temp.append(user.following)
+            friends_hashtable[user.number] = temp
+        else:
+            friends_hashtable[user.number] = [user.following]
+
+followers_hashtable= {}
+def followershashing():
+    for user in userfriendship:
+        if user.following in followers_hashtable:
+            temp = followers_hashtable.get(user.following)
+            temp.append(user.number)
+            followers_hashtable[user.following] = temp
+        else:
+            followers_hashtable[user.following] = [user.number]
+
+
+class Friendship_Node:
+    def __init__(self, name):
+        self.name = name
+        self.followingset = []
+        self.weight = 0
+        self.n = 0
+        self.first = None
+
+    def add(self, v):
+        a = Adj()
+        a.n = v.n
+        a.next = self.first
+        self.first = a
+
+# def mapping():
+#     for follower in friends_hashtable:
+
+
+
+
+
+def menu_2():
+
     freq_list = []
 
     for tw_hashkey in word_hashtable:
@@ -360,76 +414,35 @@ def wordhashing():
             set = [len(value), tw_hashkey]
             freq_list.append(set)
     max_heapsort(freq_list)
-    #print(freq_list)
     print("Top 5 most tweeted words:", freq_list[0][1],freq_list[1][1],freq_list[2][1],freq_list[3][1],freq_list[4][1])
-
-#user hashing
-def userhashing():
-    user_hashtable= {}
-    for tw in tweets:
-        if tw.number in user_hashtable:
-            buffer = user_hashtable.get(tw.number)
-            buffer.append(tw.tweet)
-            user_hashtable[tw.number]=buffer
-        else:
-            user_hashtable[tw.number] = [tw.tweet]
-
-    chatterbox = []
-
-    for tw_hashkey in user_hashtable:
-        value = user_hashtable.get(tw_hashkey)
-        if(len(value) > 2):
-            set = [len(value), tw_hashkey]
-            chatterbox.append(set)
-    max_heapsort(chatterbox)
-    print("Top 5 most tweeted users:",chatterbox[0][1],chatterbox[1][1],chatterbox[2][1],chatterbox[3][1],chatterbox[4][1])
-
-
-
-    # #top5 most tweeted users
-    # inverse = invert_dict(word_hashtable)
-    # chatterbox = []
-    #
-    # for tw_user in inverse:
-    #     value = inverse.get(tw_user)
-    #     if(len(value) > 2):
-    #         set = [len(value), tw_user]
-    #         freq_list.append(set)
-    # max_heapsort(chatterbox)
-    # print(chatterbox)
-    # print("Top 5 most tweeted words:", chatterbox[0][1],chatterbox[1][1],chatterbox[2][1],chatterbox[3][1],chatterbox[4][1])
-
-
-def menu_2():
-    wordhashing()
-    freq_list = []
-
-    # for tw_hashkey in word_hashtable:
-    #     value = word_hashtable.get(tw_hashkey)
-    #     if(len(value) > 2):
-    #         set = [len(value), tw_hashkey]
-    #         freq_list.append(set)
-    # max_heapsort(freq_list)
-    # print("Top 5 most tweeted words:", freq_list[0][1], freq_list[1][1], freq_list[2][1], freq_list[3][1], freq_list[4][1])
 
 
 
 
 def menu_3 ():
-    wordhashing()
+
+    chatterbox = []
+    for tw_hashkey in user_hashtable:
+        value = user_hashtable.get(tw_hashkey)
+        if (len(value) > 2):
+            set = [len(value), tw_hashkey]
+            chatterbox.append(set)
+    max_heapsort(chatterbox)
+    print("Top 5 most tweeted users:", chatterbox[0][1],chatterbox[1][1],chatterbox[2][1],chatterbox[3][1],chatterbox[4][1])
 
 
+def menu_4 ():
+    key = input("Who've tweeted this word?: ")
 
-def main():
-    word = open('word.txt')
-    friend = open('friend.txt')
-    user = open('user.txt')
+    print(word_hashtable[key])
 
-    for line in word:
-        line = line[0:-1]
-        print (line)
+    return word_hashtable[key]
 
 
+def menu_5 (temp):
+    print(len(temp))
+    for key in temp:
+        print(key,"의 친구:",followers_hashtable[key] )
 
 
 
@@ -446,14 +459,24 @@ def MainMenu():
     print("8: Find strongly connected components")
     print("9: Find shortest path from a given user")
     print("99: Quit")
-    print("Select Menu:")
+    key= input("Select Menu: ")
 
+    if key == '0':
+        menu_0()
+   # elif key = 1
+   #     menu_1()
+    elif key == '2':
+        menu_2()
+    elif key == 3:
+        menu_3()
 
 
 
 
 #main ()
 MainMenu()
-menu_0()
-menu_2()
-userhashing()
+#menu_0()
+#menu_2()
+#menu_3()
+#temp = menu_4()
+#menu_5(temp)
