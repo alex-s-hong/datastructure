@@ -1,6 +1,8 @@
+import sys
 WHITE = 0
 GRAY = 1
 BLACK = 2
+INFTY = 1E10
 
 def parent(n):
     return (n-1)/2
@@ -33,11 +35,137 @@ def max_heapsort(A):
         A[i-1],A[0]=A[0],A[i-1]
         max_heapify(A,0,i-1)
 
+class Heap:
+    def __init__(self):
+        self.nelem = 0
+        self.A = []
+
+    def parent(self, n):
+        return (n - 1) // 2
+
+    def left(self, n):
+        return 2 * n + 1
+
+    def right(self, n):
+        return 2 * n + 2
+
+    def compare(self, a, b):
+        return a - b > 0
+
+    def exchange(self, i, j):
+        A = self.A
+        A[i], A[j] = A[j], A[i]
+
+    def heapify(self, i):
+        A = self.A
+        l = self.left(i)
+        r = self.right(i)
+        if l < self.nelem and self.compare(A[l], A[i]):
+            largest = l
+        else:
+            largest = i
+        if r < self.nelem and self.compare(A[r], A[largest]):
+            largest = r
+        if largest != i:
+            self.exchange(i, largest)
+            self.heapify(largest)
+
+
+class PrioNode:
+    def __init__(self, key, n):
+        self.ndx = 0
+        self.n = n
+        self.key = key
+
+    def __repr__(self):
+        return "(%d:%d,%d)" % (self.ndx, self.n, self.key)
+
+
+class MaxQueue(Heap):
+    def __init__(self):
+        super().__init__()
+
+    def compare(self, a, b):
+        return a.key > b.key
+
+    def exchange(self, i, j):
+        A = self.A
+        A[i].ndx = j
+        A[j].ndx = i
+        super().exchange(i, j)
+
+    def update_key(self, i):
+        parent = lambda x: self.parent(i)
+        compare = lambda a, b: self.compare(a, b)
+        A = self.A
+        while i > 0 and not compare(A[parent(i)], A[i]):
+            self.exchange(i, parent(i))
+            i = parent(i)
+
+    def increase_key(self, i, key):
+        A = self.A
+        if key < A[i].key:
+            print("Error")
+            sys.exit(-1)
+        A[i].key = key
+        self.update_key(i)
+
+    def insert(self, n):
+        A = self.A
+        while len(A) < self.nelem:
+            A.append(None)
+        i = self.nelem
+        A.append(None)
+        self.nelem = self.nelem + 1
+        A[i] = n
+        A[i].ndx = i
+        self.update_key(i)
+
+    def extract(self):
+        elem = self.A[0]
+        self.exchange(0, self.nelem - 1)
+        self.nelem = self.nelem - 1
+        self.heapify(0)
+        return elem
+
+    def is_empty(self):
+        return self.nelem == 0
+
+
+class MinQueue(MaxQueue):
+    def __init__(self):
+        super().__init__()
+
+    def compare(self, a, b):
+        return a.key < b.key
+
+    def update_key(self, i):
+        parent = lambda x: self.parent(i)
+        A = self.A
+        while i > 0 and not self.compare(A[parent(i)], A[i]):
+            self.exchange(i, parent(i))
+            i = parent(i)
+
+    def decrease_key(self, i, key):
+        A = self.A
+        if key > A[i].key:
+            print("Error")
+            sys.exit(-1)
+        A[i].key = key
+        self.update_key(i)
+
+    def __repr__(self):
+        return "%a %a" % (self.nelem, self.A)
 
 class Adj:
     def __init__(self):
         self.n = 0
         self.next = None
+
+class Weight(Adj):
+    def __init__(self, n, w):
+        super().__init__(n)
+        self.w = w
 
 
 class Vertex:
@@ -122,7 +250,7 @@ def g_transpose(vertices, vertices1):
 
 class DepthFirstSearch:
     def __init__(self):
-        self.time = 0;
+        self.time = 0
         self.vertices = None
 
     def set_vertices(self, vertices):
@@ -148,7 +276,7 @@ class DepthFirstSearch:
             if self.vertices[v.n].color == WHITE:
                 self.vertices[v.n].parent = u.n
                 self.dfs_visit(self.vertices[v.n])
-            v = v.next;
+            v = v.next
         u.color = BLACK
         self.time = self.time + 1
         u.f = self.time
@@ -248,6 +376,87 @@ class DepthFirstSearch:
         for n in sorted:
             if self.vertices[n].color == WHITE:
                 self.scc_find(vset[n])
+
+class DijkVertex(Vertex):
+    def __init__(self, name):
+        super().__init__(name)
+        self.d = INFTY
+        self.priority = None
+
+    def __repr__(self):
+        return "(%a %a %a)" % (self.name, self.n, self.d)
+
+    def add(self, v, w):
+        a = Weight(v, w)
+        a.next = self.first
+        self.first = a
+
+    def set_priority(self, n):
+        self.priority = n
+
+    def decrease_key(self, q):
+        prio = self.priority
+        ndx = prio.ndx
+        q.decrease_key(ndx, self.d)
+
+
+class Dijkstra:
+    def __init__(self):
+        self.vertices = []
+        self.q = MinQueue()
+
+    def add_vertex(self, name):
+        n = len(self.vertices)
+        v = DijkVertex(name)
+        v.n = n
+        self.vertices.append(v)
+        return v
+
+    def get_vertex(self, name):
+        for v in self.vertices:
+            if v.name == name:
+                return v
+        return None
+
+    def print_vertex(self, n):
+        print(self.vertices[n].name, end=' ')
+        print(self.vertices[n].parent, end=' ')
+        print(self.vertices[n].d, end=' ')
+        p = self.vertices[n].first
+        while p:
+            print(p.n.name, end=' ')
+            print(p.w, end=' ')
+            p = p.next
+        print('')
+
+    def print_vertices(self):
+        for i in range(len(self.vertices)):
+            self.print_vertex(i)
+
+    def relax(self, u):
+        vset = self.vertices
+        q = self.q
+        p = u.first
+        while p:
+            v = p.n
+            d = u.d + p.w
+            if d < v.d:
+                v.d = d
+                v.parent = u.n
+                print(v)
+                v.decrease_key(q)
+            p = p.next
+
+    def shortest_path(self):
+        q = self.q
+        vset = self.vertices
+        for v in vset:
+            n = PrioNode(v.d, v.n)
+            v.set_priority(n)
+            q.insert(n)
+        while not q.is_empty():
+            u = q.extract()
+            self.relax(vset[u.n])
 
 
 userprofilelist = []
@@ -391,19 +600,7 @@ def followershashing():
             followers_hashtable[user.following] = [user.number]
 
 
-class Friendship_Node:
-    def __init__(self, name):
-        self.name = name
-        self.followingset = []
-        self.weight = 0
-        self.n = 0
-        self.first = None
 
-    def add(self, v):
-        a = Adj()
-        a.n = v.n
-        a.next = self.first
-        self.first = a
 
 
 def menu_1 ():
@@ -536,18 +733,41 @@ def menu_7 ():
                 followings = friends_hashtable.get(user)
                 for affected in followings:
                     temp = followers_hashtable.get(affected)
-                    if temp != None:
+                    if temp is not None:
                         temp.remove(user)
                         followers_hashtable[affected] = temp
                 del friends_hashtable[user]
             if user in followers_hashtable:
                 del followers_hashtable[user]
+            del profile_hashtable[user]
+
+
 
     else:
         print("Invalid word. ")
         return
 
+def menu_8 ():
+    pre_vertices = []
+    for x in profile_hashtable:
+        x = DFSVertex(x)
+        pre_vertices.append(x)
+    print("aaaaaa")
+    DFS = DepthFirstSearch()
+    print("bbbbbbbbbbb")
+    DFS.set_vertices(pre_vertices)
+    for x in pre_vertices:
+        for y in friends_hashtable:
+            if y == x.name:
+                temp = friends_hashtable.get(y)
+                for z in temp:
+                    for a in pre_vertices:
+                        if z == a.name:
+                            x.add(a)
 
+
+    DFS.scc()
+    DFS.print_vertices()
 
 
 
@@ -583,6 +803,10 @@ def MainMenu():
             menu_6()
         elif key == '7':
             menu_7()
+        elif key == '8':
+            menu_8()
+        # elif key == '9':
+        #     menu_9()
         elif key == '99':
             break
         else:
