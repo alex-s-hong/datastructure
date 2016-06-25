@@ -1,4 +1,5 @@
 import sys
+sys.setrecursionlimit(10000)
 WHITE = 0
 GRAY = 1
 BLACK = 2
@@ -752,7 +753,7 @@ def menu_8 ():
     for x in profile_hashtable:
         x = DFSVertex(x)
         pre_vertices.append(x)
- 
+
     DFS = DepthFirstSearch()
 
     DFS.set_vertices(pre_vertices)
@@ -766,10 +767,14 @@ def menu_8 ():
                             x.add(a)
 
 
-    #DFS.scc()
-    #DFS.print_vertices()
+    DFS.scc()
+    DFS.print_vertices()
 
-
+# def menu_8_modified():
+#     for x in followers_hashtable:
+#         temp = followers_hashtable.get(x)
+#         for y in temp:
+#
 
 def MainMenu():
     while True:

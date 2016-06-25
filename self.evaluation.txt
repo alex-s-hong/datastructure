@@ -7,6 +7,6 @@
 • Top 5 most tweeted users (5)					 5
 • Find all users who mentioned a word (10)			10
 • Find all users who are friend of the above user (5)		 5
-• Top 5 strongly connected components (10)			 3
+• Top 5 strongly connected components (10)			 8
 • Find shortest path from a user (id) (10)			 3
-								106
+								111
