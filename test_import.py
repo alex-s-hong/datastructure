@@ -495,9 +495,13 @@ def menu_3 ():
 def menu_4 ():
     key = input("Who've tweeted this word?: ")
 
-    print(word_hashtable[key])
+    if key in word_hashtable:
+        print(word_hashtable[key])
+        return word_hashtable[key]
+    else:
+        print("Not found.")
+        return
 
-    return word_hashtable[key]
 
 
 def menu_5 (temp):
@@ -509,9 +513,82 @@ def menu_5 (temp):
         print("This menu cannot be executed before executing menu 4.")
 
 
-def menu_6:
+def menu_6 ():
     key = input("Enter a word you'd like to erase: ")
-    
+
+    if key in word_hashtable:
+        utterer = word_hashtable.get(key)
+        del word_hashtable[key]
+
+        for target in utterer:
+            temp = user_hashtable.get(target)
+            temp.remove(key)
+            user_hashtable[target] = temp
+    else:
+        print("Cannot find the word.")
+        return
+
+def menu_7 ():
+    key = input("Enter a word you'd like to erase user who've mentioned: ")
+
+    if key in word_hashtable:
+        utterer = word_hashtable.get(key)
+        del word_hashtable[key]
+
+        for target in utterer:
+            if target in user_hashtable:
+                del user_hashtable[target]
+
+
+        for user in utterer:
+            if user in friends_hashtable:
+                followings = friends_hashtable.get(user)
+                for affected in followings:
+                    temp = friends_hashtable.get(affected)
+                    temp.remove(user)
+                    friends_hashtable[affected] = temp
+                del friends_hashtable[user]
+            if user in followers_hashtable:
+                followers = followers_hashtable.get(user)
+                for followed in followers:
+                    temp = followers_hashtable.get(followed)
+                    temp.remove(user)
+                    followers_hashtable[followed] = temp
+                del followers_hashtable[user]
+
+    else:
+        print("Invalid word. ")
+        return
+
+
+
+
+
+    # # mentions = user_hashtable.get(key)
+    # # del user_hashtable[key]
+    # #
+    # # for target in mentions:
+    # #     temp = word_hashtable.get(target)
+    # #     temp.remove(key)
+    # #     word_hashtable[target]= temp
+    #
+    # user = friends_hashtable.get(key)
+    # del friends_hashtable[key]
+    #
+    # for following in user:
+    #     temp = followers_hashtable.get(following)
+    #     temp.remove(key)
+    #     followers_hashtable[following] = temp
+    #
+    # affected = followers_hashtable.get(key)
+    # del followers_hashtable[key]
+    #
+    # for follower in affected:
+    #     temp = friends_hashtable.get(follower)
+    #     temp.remove(key)
+    #     friends_hashtable[follower] = temp
+
+
 
 
 
@@ -546,9 +623,13 @@ def MainMenu():
       #  elif key == '5':
        #     temp = menu_4()
        #     menu_5(temp)
+        elif key == '6':
+            menu_6()
+        elif key == '7':
+            menu_7()
         elif key == '99':
             break
-        else
+        else:
             print("ERROR: Enter the number listed.\n")
 
 
