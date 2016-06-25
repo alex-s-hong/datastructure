@@ -505,12 +505,12 @@ def menu_4 ():
 
 
 def menu_5 (temp):
-    print(len(temp))
-    if len(temp) != 0:
+    #print(len(temp))
+    if temp != None:
         for key in temp:
             print(key,"의 친구:",followers_hashtable[key] )
     else:
-        print("This menu cannot be executed before executing menu 4.")
+        print("No user found from menu_4, thus no followers for the user.")
 
 
 def menu_6 ():
@@ -565,36 +565,6 @@ def menu_7 ():
 
 
 
-    # # mentions = user_hashtable.get(key)
-    # # del user_hashtable[key]
-    # #
-    # # for target in mentions:
-    # #     temp = word_hashtable.get(target)
-    # #     temp.remove(key)
-    # #     word_hashtable[target]= temp
-    #
-    # user = friends_hashtable.get(key)
-    # del friends_hashtable[key]
-    #
-    # for following in user:
-    #     temp = followers_hashtable.get(following)
-    #     temp.remove(key)
-    #     followers_hashtable[following] = temp
-    #
-    # affected = followers_hashtable.get(key)
-    # del followers_hashtable[key]
-    #
-    # for follower in affected:
-    #     temp = friends_hashtable.get(follower)
-    #     temp.remove(key)
-    #     friends_hashtable[follower] = temp
-
-
-
-
-
-
-
 def MainMenu():
     while True:
         print("--------Main Menu--------")
@@ -620,10 +590,9 @@ def MainMenu():
         elif key == '3':
             menu_3()
         elif key == '4':
-            menu_4()
-      #  elif key == '5':
-       #     temp = menu_4()
-       #     menu_5(temp)
+            temp = menu_4()
+        elif key == '5':
+            menu_5(temp)
         elif key == '6':
             menu_6()
         elif key == '7':
