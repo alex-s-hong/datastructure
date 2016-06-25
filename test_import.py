@@ -752,9 +752,9 @@ def menu_8 ():
     for x in profile_hashtable:
         x = DFSVertex(x)
         pre_vertices.append(x)
-    print("aaaaaa")
+ 
     DFS = DepthFirstSearch()
-    print("bbbbbbbbbbb")
+
     DFS.set_vertices(pre_vertices)
     for x in pre_vertices:
         for y in friends_hashtable:
@@ -766,8 +766,8 @@ def menu_8 ():
                             x.add(a)
 
 
-    DFS.scc()
-    DFS.print_vertices()
+    #DFS.scc()
+    #DFS.print_vertices()
 
 
 
