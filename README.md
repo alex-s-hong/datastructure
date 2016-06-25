@@ -29,7 +29,7 @@ ___Manuals for users___
 *2. Due to the attribute of 5th itself, 4th section must be executed before the 5th is executed.*
   메뉴5를 실행하기 전에는 반드시 메뉴4를 실행하십시오.
 
-*3. menu 9 are not finished yet.*
+*3. menu 9 is not finished yet.*
   9번은 아직 완성되지 않았습니다.
 
 *4. Press 99 to quit the program.*
