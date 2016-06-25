@@ -282,7 +282,7 @@ class Friend:
         self.following = None
 
 def menu_0 ():
-    userfile = open('user_sample.txt')
+    userfile = open('user_utf.txt')
     i = 0
 
     for line in userfile:
@@ -298,7 +298,7 @@ def menu_0 ():
             userprofilelist.append(user)
         i = i+1
      #   print(line)
-    friendfile = open('friend_sample.txt')
+    friendfile = open('friend_utf.txt')
     j = 0
     for line in friendfile:
         line = line [0:-1]
@@ -311,7 +311,7 @@ def menu_0 ():
             userfriendship.append(user)
         j = j+1
 
-    with open("word_sample.txt", "r", encoding ="utf-8") as wordfile:
+    with open("word_utf.txt", "r", encoding ="utf-8") as wordfile:
         k =0
         for line in wordfile:
             line = line [0:-1]
@@ -333,6 +333,18 @@ def menu_0 ():
     userhashing()
     friendshiphashing()
     followershashing()
+    profile_hashing()
+
+
+#userprofile hashing
+profile_hashtable = {}
+def profile_hashing():
+    for user in userprofilelist:
+        if(user.number in userprofilelist):
+            print("ERROR: text file has an error")
+        else:
+            profile_hashtable[user.number]= [user.id]
+
 
 
 #word hashing
@@ -400,6 +412,55 @@ class Friendship_Node:
 # def mapping():
 #     for follower in friends_hashtable:
 
+def menu_1 ():
+    totalusers = len(profile_hashtable)
+    totaltweets = 0
+    max_value = 0
+    min_value = 1E10
+    for user in user_hashtable:
+        count = len(user_hashtable.get(user))
+        totaltweets = totaltweets + count
+        if count > max_value:
+            #max_key = user
+            max_value = count
+        if count < min_value:
+            #min_key = user
+            min_value = count
+
+    avg_tweet = totaltweets/totalusers
+    max_tweet = max_value
+    if totalusers == len(user_hashtable):
+        min_tweet = min_value
+    else:
+        min_tweet = 0
+
+    print("Average tweets per user: ", avg_tweet)
+    print("Maximum tweets per user: ", max_tweet)
+    print("Minimum tweets per user: ", min_tweet)
+
+
+
+    totalfriends = 0
+    max_friends = 0
+    min_temp =1E10
+
+    for follower in friends_hashtable:
+        count = len(friends_hashtable.get(follower))
+        totalfriends = totalfriends + count
+        if count > max_friends:
+            max_friends = count
+        if count < min_temp:
+            min_temp = count
+
+    avg_friends = totalfriends/totalusers
+    if totalusers == len(friends_hashtable):
+        min_friends = min_temp
+    else:
+        min_friends = 0
+
+    print("Average number of friends: ", avg_friends)
+    print("Maximum number of friends per user: ", max_friends)
+    print("Minimum number of friends per user: ", min_friends)
 
 
 
@@ -441,40 +502,65 @@ def menu_4 ():
 
 def menu_5 (temp):
     print(len(temp))
-    for key in temp:
-        print(key,"의 친구:",followers_hashtable[key] )
+    if len(temp) != 0:
+        for key in temp:
+            print(key,"의 친구:",followers_hashtable[key] )
+    else:
+        print("This menu cannot be executed before executing menu 4.")
+
+
+def menu_6:
+    key = input("Enter a word you'd like to erase: ")
+    
+
 
 
 
 
 def MainMenu():
-    print("0: Read Data Files")
-    print("1: Display Statistics")
-    print("2: Top 5 most tweeted words")
-    print("3: Top 5 most tweeted users")
-    print("4: Find users who Tweeted a word")
-    print("5: Find all people who are friends of the above users")
-    print("6: Delete all mentions of a word")
-    print("7: Delete all users who mentioned a word")
-    print("8: Find strongly connected components")
-    print("9: Find shortest path from a given user")
-    print("99: Quit")
-    key= input("Select Menu: ")
+    while True:
+        print("--------Main Menu--------")
+        print("0: Read Data Files")
+        print("1: Display Statistics")
+        print("2: Top 5 most tweeted words")
+        print("3: Top 5 most tweeted users")
+        print("4: Find users who Tweeted a word")
+        print("5: Find all people who are friends of the above users")
+        print("6: Delete all mentions of a word")
+        print("7: Delete all users who mentioned a word")
+        print("8: Find strongly connected components")
+        print("9: Find shortest path from a given user")
+        print("99: Quit")
+        key= input("Select Menu: ")
 
-    if key == '0':
-        menu_0()
-   # elif key = 1
-   #     menu_1()
-    elif key == '2':
-        menu_2()
-    elif key == 3:
-        menu_3()
+        if key == '0':
+            menu_0()
+        elif key == '1':
+            menu_1()
+        elif key == '2':
+            menu_2()
+        elif key == '3':
+            menu_3()
+        elif key == '4':
+            menu_4()
+      #  elif key == '5':
+       #     temp = menu_4()
+       #     menu_5(temp)
+        elif key == '99':
+            break
+        else
+            print("ERROR: Enter the number listed.\n")
 
 
 
 
-#main ()
+
+
+
+
+
 MainMenu()
+#menu_1()
 #menu_0()
 #menu_2()
 #menu_3()
