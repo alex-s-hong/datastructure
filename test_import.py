@@ -544,16 +544,17 @@ def menu_7 ():
             if user in friends_hashtable:
                 followings = friends_hashtable.get(user)
                 for affected in followings:
-                    temp = friends_hashtable.get(affected)
-                    temp.remove(user)
-                    friends_hashtable[affected] = temp
+                    temp = followers_hashtable.get(affected)
+                    if temp != None:
+                        temp.remove(user)
+                        followers_hashtable[affected] = temp
                 del friends_hashtable[user]
             if user in followers_hashtable:
-                followers = followers_hashtable.get(user)
-                for followed in followers:
-                    temp = followers_hashtable.get(followed)
-                    temp.remove(user)
-                    followers_hashtable[followed] = temp
+                # followers = followers_hashtable.get(user)
+                # for followed in followers:
+                #     temp = followers_hashtable.get(followed)
+                #     temp.remove(user)
+                #     followers_hashtable[followed] = temp
                 del followers_hashtable[user]
 
     else:
