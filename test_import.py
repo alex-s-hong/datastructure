@@ -297,7 +297,6 @@ def menu_0 ():
         elif ((i%4)==3):
             userprofilelist.append(user)
         i = i+1
-     #   print(line)
     friendfile = open('friend_utf.txt')
     j = 0
     for line in friendfile:
@@ -351,12 +350,10 @@ def profile_hashing():
 word_hashtable = {}
 def wordhashing():
     for tw in tweets:
-        #print(tw.tweet)
         if(tw.tweet in word_hashtable):
             temp = word_hashtable.get(tw.tweet)
             temp.append(tw.number)
             word_hashtable[tw.tweet] = temp
-            #print(tw.tweet)
         else:
             word_hashtable[tw.tweet] = [tw.number]
 
@@ -364,7 +361,6 @@ def wordhashing():
 #user hashing
 user_hashtable={}
 def userhashing():
-   # user_hashtable= {}
     for tw in tweets:
         if tw.number in user_hashtable:
             temp = user_hashtable.get(tw.number)
@@ -409,8 +405,6 @@ class Friendship_Node:
         a.next = self.first
         self.first = a
 
-# def mapping():
-#     for follower in friends_hashtable:
 
 def menu_1 ():
     totalusers = len(profile_hashtable)
@@ -421,10 +415,8 @@ def menu_1 ():
         count = len(user_hashtable.get(user))
         totaltweets = totaltweets + count
         if count > max_value:
-            #max_key = user
             max_value = count
         if count < min_value:
-            #min_key = user
             min_value = count
 
     avg_tweet = totaltweets/totalusers
@@ -505,7 +497,6 @@ def menu_4 ():
 
 
 def menu_5 (temp):
-    #print(len(temp))
     if temp != None:
         for key in temp:
             print(key,"의 친구:",followers_hashtable[key] )
@@ -550,11 +541,6 @@ def menu_7 ():
                         followers_hashtable[affected] = temp
                 del friends_hashtable[user]
             if user in followers_hashtable:
-                # followers = followers_hashtable.get(user)
-                # for followed in followers:
-                #     temp = followers_hashtable.get(followed)
-                #     temp.remove(user)
-                #     followers_hashtable[followed] = temp
                 del followers_hashtable[user]
 
     else:
@@ -611,9 +597,3 @@ def MainMenu():
 
 
 MainMenu()
-#menu_1()
-#menu_0()
-#menu_2()
-#menu_3()
-#temp = menu_4()
-#menu_5(temp)
