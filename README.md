@@ -13,11 +13,11 @@ ___Manuals for users___
 *1. Please do not press other buttons before import the text file. (menu 0)*
   텍스트 파일을 불러들이기(메뉴0) 전에 다른 버튼을 누르지 마십시오. 
   
-2. Due to the attribute of 5th itself, 4th section must be executed before the 5th is executed.
+*2. Due to the attribute of 5th itself, 4th section must be executed before the 5th is executed.*
   메뉴5를 실행하기 전에는 반드시 메뉴4를 실행하십시오.
 
-3. menu 8 and menu 9 are not finished yet.
+*3. menu 8 and menu 9 are not finished yet.*
   8번과 9번은 아직 완성되지 않았습니다.
 
-4. Press 99 to quit the program.
+*4. Press 99 to quit the program.*
   프로그램을 종료하려면 99를 누르십시오.
